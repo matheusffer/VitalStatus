@@ -1,0 +1,154 @@
+{
+  "site": {
+    "nome": "Status Vital",
+    "url": "https://status.vitalerp.tech",
+    "contato": "https://vitalerp.tech",
+    "ajuda": "https://gerencial.vitalerp.tech/ajuda",
+    "intervaloMin": 5
+  },
+  "padroes": {
+    "timeoutMs": 8000,
+    "latenciaMaxMs": 5000,
+    "falhasParaConfirmar": 2,
+    "urlControle": "https://www.gstatic.com/generate_204"
+  },
+  "grupos": [
+    {
+      "id": "erp",
+      "nome": "Vital ERP",
+      "descricao": "Gestão financeira, comercial, fiscal e de estoque",
+      "link": "https://gerencial.vitalerp.tech",
+      "componentes": [
+        {
+          "id": "erp-app",
+          "nome": "Aplicação",
+          "descricao": "Tela de login e telas do sistema",
+          "url": "https://gerencial.vitalerp.tech/login",
+          "esperado": 200
+        },
+        {
+          "id": "erp-api",
+          "nome": "API",
+          "descricao": "Servidor que responde às telas e às integrações",
+          "url": "https://gerencial.vitalerp.tech/api/health",
+          "esperado": 200,
+          "json": { "caminho": "status", "em": ["ok"] }
+        },
+        {
+          "id": "erp-banco",
+          "nome": "Banco de dados",
+          "descricao": "Onde os seus cadastros e lançamentos ficam guardados",
+          "url": "https://gerencial.vitalerp.tech/api/health?deep=1",
+          "json": { "caminho": "dependencias.banco.estado", "em": ["ok"] }
+        },
+        {
+          "id": "erp-fiscal",
+          "nome": "Emissão de NF-e",
+          "descricao": "Motor fiscal que assina e transmite as notas",
+          "url": "https://gerencial.vitalerp.tech/api/health?deep=1",
+          "json": { "caminho": "dependencias.nfe_engine.estado", "em": ["ok"] }
+        },
+        {
+          "id": "erp-worker",
+          "nome": "Processamento em segundo plano",
+          "descricao": "Importações, e-mails, consolidações e demais tarefas agendadas",
+          "url": "https://gerencial.vitalerp.tech/api/health?deep=1",
+          "json": { "caminho": "dependencias.worker.estado", "em": ["ok"] }
+        },
+        {
+          "id": "erp-arquivos",
+          "nome": "Armazenamento de arquivos",
+          "descricao": "XMLs, anexos e documentos",
+          "url": "https://supabase.vitalerp.tech/storage/v1/status",
+          "esperado": 200
+        },
+        {
+          "id": "erp-site",
+          "nome": "Site institucional",
+          "url": "https://vitalerp.tech",
+          "esperado": 200
+        }
+      ]
+    },
+    {
+      "id": "pdv",
+      "nome": "Vital PDV",
+      "descricao": "Frente de caixa",
+      "link": "https://vitalpdv.tech",
+      "componentes": [
+        {
+          "id": "pdv-api",
+          "nome": "API",
+          "url": "https://vitalpdv.tech/api/v1/live",
+          "esperado": 200
+        },
+        {
+          "id": "pdv-caixa",
+          "nome": "Caixa (web)",
+          "url": "https://caixa.vitalpdv.tech",
+          "esperado": 200
+        }
+      ]
+    },
+    {
+      "id": "talk",
+      "nome": "Vital Talk",
+      "descricao": "Atendimento e relacionamento pelo WhatsApp",
+      "link": "https://vitaltalk.tech",
+      "componentes": [
+        {
+          "id": "talk-app",
+          "nome": "Aplicação",
+          "url": "https://vitaltalk.tech/login",
+          "esperado": 200
+        },
+        {
+          "id": "talk-api",
+          "nome": "API",
+          "url": "https://api.vitaltalk.tech/storage/v1/status",
+          "esperado": 200
+        }
+      ]
+    },
+    {
+      "id": "viasupply",
+      "nome": "Via Supply",
+      "descricao": "Cotação e compras entre empresas",
+      "link": "https://viasupply.com.br",
+      "componentes": [
+        {
+          "id": "viasupply-app",
+          "nome": "Aplicação",
+          "url": "https://viasupply.com.br/login",
+          "esperado": 200
+        },
+        {
+          "id": "viasupply-site",
+          "nome": "Site institucional",
+          "url": "https://viasupply.com.br",
+          "esperado": 200
+        }
+      ]
+    },
+    {
+      "id": "vendasativa",
+      "nome": "Vendas Ativa",
+      "descricao": "Gestão da equipe de vendas externas",
+      "link": "https://app.vendasativa.com.br",
+      "componentes": [
+        {
+          "id": "vendasativa-app",
+          "nome": "Aplicação",
+          "url": "https://app.vendasativa.com.br/login",
+          "esperado": 200
+        },
+        {
+          "id": "vendasativa-site",
+          "nome": "Site institucional",
+          "url": "https://vendasativa.com.br",
+          "esperado": 200
+        }
+      ]
+    }
+  ]
+}

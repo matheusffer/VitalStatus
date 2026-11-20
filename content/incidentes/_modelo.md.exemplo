@@ -1,0 +1,11 @@
+---
+titulo: Instabilidade na emissão de notas fiscais
+componentes: [erp-fiscal]
+impacto: degradado
+estado: investigando
+inicio: 2026-11-25 14:15
+# Opcional: preencha `fim` quando o incidente for encerrado e mude `estado` para `resolvido`.
+# fim: 2026-11-25 15:05
+---
+
+Identificamos lentidão na comunicação com a SEFAZ para emissão de NF-e. Nossa equipe já está acompanhando a normalização.

@@ -1,0 +1,12 @@
+---
+titulo: Atualização programada do banco de dados
+componentes:
+  - erp-banco
+  - erp-api
+inicio: 2026-11-25 22:00
+fim: 2026-11-25 23:00
+---
+
+Faremos uma janela de manutenção para atualização de índices e ajustes de desempenho no banco de dados do Vital ERP.
+
+Durante esse intervalo, o acesso à aplicação e à API pode ficar temporariamente indisponível.

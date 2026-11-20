@@ -1,0 +1,6 @@
+node_modules/
+dist/
+# O histórico das sondas vive na branch "data", nunca na main.
+data/
+.env
+*.log

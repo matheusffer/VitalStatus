@@ -1,0 +1,119 @@
+# Sonda de disponibilidade e publicação do Status Vital.
+#
+# Observação: o push na branch `data` não dispara este workflow (o gatilho `push`
+# é restrito à branch `main`).
+# O agendamento `cron` do GitHub Actions é best-effort e pode sofrer atrasos de
+# alguns minutos em horários de pico.
+#
+# Secrets necessários no repositório:
+# - TELEGRAM_BOT_TOKEN: token do bot do Telegram criado via @BotFather.
+# - ALERT_CHAT_ID: ID do grupo/canal/usuário que receberá os avisos.
+# - ALERT_THREAD_ID: (opcional) ID do tópico em grupos com fórum ativado.
+
+name: Sonda e publicação
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: sonda
+  cancel-in-progress: false
+
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Baixar código da main
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Restaurar estado anterior (branch data)
+        run: |
+          mkdir -p data
+          set +e
+          git ls-remote --exit-code --heads origin data >/dev/null 2>&1
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            # A branch existe: restaurar TEM de funcionar, senão o job falha (melhor perder uma rodada que o histórico).
+            git fetch --depth=1 origin data
+            if ! git show FETCH_HEAD:state.json > data/state.json; then
+              echo "Erro: a branch 'data' existe, mas 'state.json' não foi encontrado nela." >&2
+              rm -f data/state.json
+              exit 1
+            fi
+          elif [ "$rc" -eq 2 ]; then
+            echo "Branch 'data' ainda não existe: primeira execução."
+          else
+            echo "Falha ao consultar o remoto (código $rc)" >&2
+            exit 1
+          fi
+
+      - name: Executar sonda
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          ALERT_CHAT_ID: ${{ secrets.ALERT_CHAT_ID }}
+          ALERT_THREAD_ID: ${{ secrets.ALERT_THREAD_ID }}
+        run: npm run probe
+
+      - name: Salvar estado na branch órfã data
+        if: hashFiles('data/state.json') != ''
+        run: |
+          set -euo pipefail
+          TMP_DIR=$(mktemp -d)
+          trap 'git worktree remove --force "$TMP_DIR" 2>/dev/null || true' EXIT
+          git worktree add --detach "$TMP_DIR"
+          (
+            set -euo pipefail
+            cd "$TMP_DIR"
+            git branch -D data 2>/dev/null || true
+            git checkout --orphan data
+            git rm -rf . >/dev/null 2>&1 || true
+            cp "$GITHUB_WORKSPACE/data/state.json" state.json
+            git config user.name "vital-status-bot"
+            git config user.email "vital-status-bot@users.noreply.github.com"
+            git add state.json
+            git commit -m "Atualiza estado da sonda"
+            git push --force origin data
+          )
+
+      - name: Gerar site estático
+        run: npm run build
+
+      # Sem `configure-pages`: o site vive na raiz do domínio próprio (sem base path),
+      # então o passo seria só uma chamada à API que exigiria a permissão `pages` aqui.
+      - name: Enviar artefato do Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    needs: sonda
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

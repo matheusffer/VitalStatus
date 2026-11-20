@@ -1,0 +1,20 @@
+{
+  "name": "vital-status",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Página de status dos produtos Vital (status.vitalerp.tech)",
+  "scripts": {
+    "probe": "tsx scripts/probe.ts",
+    "build": "tsx scripts/build.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": { "node": ">=22" },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
