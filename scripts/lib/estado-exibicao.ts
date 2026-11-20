@@ -45,6 +45,7 @@ export interface ProdutoExibicao {
   nome: string;
   descricao?: string;
   link?: string;
+  logo?: string;
   emBreve: boolean;
   estado: EstadoAgregado;
   rotuloEstado: string;
@@ -344,6 +345,7 @@ export function derivarEstadoExibicao(entrada: EntradaExibicao): EstadoExibicao 
       nome: g.nome,
       descricao: g.descricao,
       link: g.link,
+      logo: g.logo,
       emBreve,
       estado: estadoGrupo,
       rotuloEstado: rotuloEstadoAgregado(estadoGrupo, emBreve),

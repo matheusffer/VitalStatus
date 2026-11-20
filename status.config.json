@@ -16,6 +16,7 @@
     {
       "id": "erp",
       "nome": "Vital ERP",
+      "logo": "logos/vital-erp.svg",
       "descricao": "Gestão financeira, comercial, fiscal e de estoque",
       "link": "https://gerencial.vitalerp.tech",
       "componentes": [
@@ -73,6 +74,7 @@
     {
       "id": "pdv",
       "nome": "Vital PDV",
+      "logo": "logos/vital-pdv.svg",
       "descricao": "Frente de caixa",
       "link": "https://vitalpdv.tech",
       "componentes": [
@@ -93,6 +95,7 @@
     {
       "id": "talk",
       "nome": "Vital Talk",
+      "logo": "logos/vital-talk.svg",
       "descricao": "Atendimento e relacionamento pelo WhatsApp",
       "link": "https://vitaltalk.tech",
       "componentes": [
@@ -113,6 +116,7 @@
     {
       "id": "viasupply",
       "nome": "Via Supply",
+      "logo": "logos/via-supply.png",
       "descricao": "Cotação e compras entre empresas",
       "link": "https://viasupply.com.br",
       "componentes": [
@@ -133,6 +137,7 @@
     {
       "id": "vendasativa",
       "nome": "Vendas Ativa",
+      "logo": "logos/vendas-ativa.svg",
       "descricao": "Gestão da equipe de vendas externas",
       "link": "https://app.vendasativa.com.br",
       "componentes": [

@@ -208,6 +208,8 @@ function renderHead(
   urlCanonica: string,
   prefixo: string,
 ): string {
+  // A prévia do link (WhatsApp, Slack...) exige URL absoluta; a imagem vive na raiz do site.
+  const urlImagem = new URL("/og-image.png", urlCanonica).href;
   return `<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -219,6 +221,16 @@ function renderHead(
   <meta property="og:title" content="${escaparHtml(titulo)}">
   <meta property="og:description" content="${escaparHtml(descricao)}">
   <meta property="og:url" content="${escaparHtml(urlCanonica)}">
+  <meta property="og:site_name" content="Status Vital">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:image" content="${escaparHtml(urlImagem)}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Status dos sistemas Vital: Vital ERP, PDV, Talk, Via Supply e Vendas Ativa">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escaparHtml(titulo)}">
+  <meta name="twitter:description" content="${escaparHtml(descricao)}">
+  <meta name="twitter:image" content="${escaparHtml(urlImagem)}">
   <link rel="icon" href="${prefixo}favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="application/atom+xml" title="Feed de incidentes — Status Vital" href="${prefixo}incidentes.atom">
   <script src="${prefixo}theme-init.js"></script>
@@ -342,10 +354,16 @@ export function renderPaginaPrincipal(exibicao: EstadoExibicao, config: Config):
         ? `<a class="produto-link" href="${escaparHtml(produto.link)}">Acessar</a>`
         : "";
 
+      // Logo decorativo (o nome do produto já está no <h3>): alt vazio e tamanho fixo.
+      const logoHtml = produto.logo
+        ? `<img class="produto-logo" src="${escaparHtml(produto.logo)}" alt="" width="22" height="22" loading="lazy" decoding="async">`
+        : "";
+
       return `<article class="card produto-card">
   <div class="card-head produto-head">
     <div class="produto-head-info">
       <div class="produto-title-row">
+        ${logoHtml}
         <h3>${escaparHtml(produto.nome)}</h3>
         ${linkHtml}
       </div>
