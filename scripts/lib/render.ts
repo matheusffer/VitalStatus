@@ -354,10 +354,16 @@ export function renderPaginaPrincipal(exibicao: EstadoExibicao, config: Config):
         ? `<a class="produto-link" href="${escaparHtml(produto.link)}">Acessar</a>`
         : "";
 
+      // Logo decorativo (o nome do produto já está no <h3>): alt vazio e tamanho fixo.
+      const logoHtml = produto.logo
+        ? `<img class="produto-logo" src="${escaparHtml(produto.logo)}" alt="" width="22" height="22" loading="lazy" decoding="async">`
+        : "";
+
       return `<article class="card produto-card">
   <div class="card-head produto-head">
     <div class="produto-head-info">
       <div class="produto-title-row">
+        ${logoHtml}
         <h3>${escaparHtml(produto.nome)}</h3>
         ${linkHtml}
       </div>

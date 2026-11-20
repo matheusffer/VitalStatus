@@ -26,6 +26,8 @@ export interface ConfigGrupo {
   nome: string;
   descricao?: string;
   link?: string;
+  /** Caminho do logo (relativo a site/), exibido ao lado do nome do produto. */
+  logo?: string;
   componentes: ConfigComponente[];
 }
 

@@ -37,10 +37,11 @@
   h1 span { color: #2ee0cb; display: block; }
   .chips { position: absolute; left: 80px; top: 346px; display: flex; gap: 12px; }
   .chip {
-    height: 44px; padding: 0 20px; display: flex; align-items: center;
+    height: 44px; padding: 0 20px 0 14px; display: flex; align-items: center; gap: 10px;
     border: 1px solid rgba(255,255,255,.14); border-radius: 8px;
     background: rgba(255,255,255,.05); color: #cfd8d6; font-size: 20px;
   }
+  .chip img { width: 22px; height: 22px; border-radius: 6px; opacity: .9; display: block; }
   .marca { position: absolute; left: 80px; bottom: 66px; display: flex; align-items: center; gap: 20px; }
   .logo { width: 54px; height: 54px; display: block; }
   .marca b { display: block; font-weight: 500; font-size: 26px; color: #f4f7f6; }
@@ -58,11 +59,11 @@
   <div class="pill"><span class="dot"></span>Disponibilidade em tempo real</div>
   <h1>Status dos sistemas<span>Vital, ao vivo</span></h1>
   <div class="chips">
-    <div class="chip">Vital ERP</div>
-    <div class="chip">Vital PDV</div>
-    <div class="chip">Vital Talk</div>
-    <div class="chip">Via Supply</div>
-    <div class="chip">Vendas Ativa</div>
+    <div class="chip"><img src="../site/logos/vital-erp.svg" alt="">Vital ERP</div>
+    <div class="chip"><img src="../site/logos/vital-pdv.svg" alt="">Vital PDV</div>
+    <div class="chip"><img src="../site/logos/vital-talk.svg" alt="">Vital Talk</div>
+    <div class="chip"><img src="../site/logos/via-supply.png" alt="">Via Supply</div>
+    <div class="chip"><img src="../site/logos/vendas-ativa.svg" alt="">Vendas Ativa</div>
   </div>
   <div class="marca">
     <svg class="logo" viewBox="0 0 96 96" role="img" aria-label="Vital">
